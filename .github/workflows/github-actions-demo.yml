@@ -1,17 +1,23 @@
-name: GitHub Actions Demo
-on: [push]
+- name: Databrick Notebook Run
+  uses: Herman-Wu/databrick-notebook-run-action@released
+
+name: Run Databicks Notebooks GitHub Action Demo 
+on: 
+  push:
+    branches: 
+      - main 
 jobs:
-  Explore-GitHub-Actions:
+  build-and-deploy: 
     runs-on: ubuntu-latest
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v2
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+    - name: Checkout
+      uses: actions/checkout@master
+    - name: Runs Notebook01a
+      uses: Herman-Wu/databrick-notebook-run-action@master
+      with:
+        databrick-server-uri: 'https://adb-8655177164203606.6.azuredatabricks.net/'
+        databrick-token: 'dapi0343f14d87977c15a4321ceb4dd73045'
+        databrick-cluster-id: '0111-081832-pubs9hai'
+        databrick-local-path: '/github/workspace/<notebook files localtion >'
+        databrick-workspace-path: '< workspace path for notebook files >'
+        databrick-outfile-path: ' < run task results output folder >'
